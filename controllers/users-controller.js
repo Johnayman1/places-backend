@@ -1,5 +1,4 @@
 const { v4: uuid } = require("uuid");
-const path = require("path");
 const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
