@@ -3,6 +3,9 @@
     "DB_USER": "johnayman03_db_user",
     "DB_PASSWORD": "tElSoZ8odmGys6hi",
     "DB_NAME": "mern",
-    "JWT_KEY": "supersecret_dont_share"
+    "JWT_KEY": "supersecret_dont_share",
+    "CLOUD_NAME": "Root",
+    "CLOUD_KEY": "169598482145352",
+    "CLOUD_SECRET": "4o2Xvjm46u3FBr3NwXVONUCDL0E"
   }
 }
