@@ -3,18 +3,19 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const bodyParser = require("body-parser");
-const mongosse = require("mongoose");
+const mongoose = require("mongoose");
 const HttpError = require("./models/http-error");
 const placesRoutes = require("./routes/places-routes");
 const usersRoutes = require("./routes/users-routes");
 const app = express();
 
-
-app.use(cors({
-  origin: "https://places-frontend-5yvmhyqqj-johnayman1s-projects.vercel.app",
-  methods: ["GET", "POST", "PATCH", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"]
-}));
+app.use(
+  cors({
+    origin: "https://places-frontend-5yvmhyqqj-johnayman1s-projects.vercel.app",
+    methods: ["GET", "POST", "PATCH", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }),
+);
 
 app.use(bodyParser.json());
 
@@ -48,7 +49,7 @@ app.use((error, req, res, next) => {
   res.json({ message: error.message || "An unkown error occurred!" });
 });
 
-mongosse
+mongoose
   .connect(
     `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.mnntpqy.mongodb.net/${process.env.DB_NAME}?appName=Cluster0`,
   )
