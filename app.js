@@ -12,7 +12,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://places-frontend-git-main-johnayman1s-projects.vercel.app",
+    origin: "*",
     methods: ["GET", "POST", "PATCH", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
