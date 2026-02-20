@@ -1,3 +1,4 @@
+const cors = require("cors");
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
@@ -8,16 +9,23 @@ const placesRoutes = require("./routes/places-routes");
 const usersRoutes = require("./routes/users-routes");
 const app = express();
 
+
+app.use(cors({
+  origin: "https://places-frontend-5yvmhyqqj-johnayman1s-projects.vercel.app",
+  methods: ["GET", "POST", "PATCH", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
 app.use(bodyParser.json());
 
 app.use("/uploads/images", express.static(path.join("uploads", "images")));
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Headers", "*");
-  res.setHeader("Access-Control-Allow-Methods", "*");
-  next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   res.setHeader("Access-Control-Allow-Headers", "*");
+//   res.setHeader("Access-Control-Allow-Methods", "*");
+//   next();
+// });
 
 app.use("/api/places", placesRoutes);
 app.use("/api/users", usersRoutes);
