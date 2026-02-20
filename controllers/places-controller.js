@@ -63,7 +63,6 @@ const createPlace = async (req, res, next) => {
   } catch (error) {
     return next(error);
   }
-
   const createdPlace = new Place({
     title,
     description,
