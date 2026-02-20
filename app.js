@@ -1,5 +1,4 @@
 const cors = require("cors");
-const cloudinary = require("cloudinary").v2;
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
@@ -20,13 +19,7 @@ app.use(
 
 app.use(bodyParser.json());
 
-cloudinary.config({
-  cloud_name: process.env.CLOUD_NAME,
-  api_key: process.env.CLOUD_KEY,
-  api_secret: process.env.CLOUD_SECRET,
-});
-
-// app.use("/uploads/images", express.static(path.join("uploads", "images")));
+app.use("/uploads/images", express.static(path.join("uploads", "images")));
 
 // app.use((req, res, next) => {
 //   res.setHeader("Access-Control-Allow-Origin", "*");

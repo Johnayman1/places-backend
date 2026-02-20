@@ -1,6 +1,4 @@
 const { v4: uuid } = require("uuid");
-const cloudinary = require("cloudinary").v2;
-const fs = require("fs");
 const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
@@ -58,22 +56,10 @@ const signup = async (req, res, next) => {
     );
     return next(error);
   }
-
-  let uploadedImage;
-  try {
-    uploadedImage = await cloudinary.uploader.upload(req.file.path, {
-      folder: "users",
-    });
-  } catch (err) {
-    return next(new HttpError("Image upload failed.", 500));
-  }
-
-  fs.unlink(req.file.path, (err) => console.log(err));
-
   const newUser = new User({
     name,
     email,
-    image: uploadedImage.secure_url,
+    image: req.file.path,
     password: hashedPassword,
     places: [],
   });

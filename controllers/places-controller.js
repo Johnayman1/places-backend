@@ -1,5 +1,4 @@
 const fs = require("fs");
-const cloudinary = require("cloudinary").v2;
 const { v4: uuid } = require("uuid");
 const { validationResult } = require("express-validator");
 const getCoordsForAddress = require("../util/location");
@@ -65,23 +64,12 @@ const createPlace = async (req, res, next) => {
     return next(error);
   }
 
-  let uploadedImage;
-  try {
-    uploadedImage = await cloudinary.uploader.upload(req.file.path, {
-      folder: "users",
-    });
-  } catch (err) {
-    return next(new HttpError("Image upload failed.", 500));
-  }
-
-  fs.unlink(req.file.path, (err) => console.log(err));
-
   const createdPlace = new Place({
     title,
     description,
     address,
     location: coordinates,
-    image: uploadedImage.secure_url,
+    image: req.file.path,
     creator: req.userData.userId,
   });
 

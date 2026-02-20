@@ -20,24 +20,8 @@ const fileUpload = multer({
   fileFilter: (req, file, cb) => {
     const isValid = !!MIME_TYPE_MAP[file.mimetype];
     let error = isValid ? null : new Error("Invalid mime type.");
-    cb(error,isValid);
+    cb(error, isValid);
   },
 });
 
 module.exports = fileUpload;
-
-// const multer = require("multer");
-// const { CloudinaryStorage } = require("multer-storage-cloudinary");
-// const cloudinary = require("cloudinary").v2;
-
-// const storage = new CloudinaryStorage({
-//   cloudinary: cloudinary,
-//   params: {
-//     folder: "mern-places", // folder in Cloudinary
-//     allowed_formats: ["jpg", "png", "jpeg"],
-//   },
-// });
-
-// const fileUpload = multer({ storage: storage });
-
-// module.exports = fileUpload;
