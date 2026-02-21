@@ -32,10 +32,10 @@ app.use("/api/users", usersRoutes);
 
 app.use("/uploads/images", express.static(path.join("uploads", "images")));
 
-// app.use((req, res, next) => {
-//   const error = new HttpError("Could not find this route.", 404);
-//   throw error;
-// });
+app.use((req, res, next) => {
+  const error = new HttpError("Could not find this route.", 404);
+  throw error;
+});
 
 app.use((error, req, res, next) => {
   if (req.file) {
@@ -43,9 +43,9 @@ app.use((error, req, res, next) => {
       console.log(err);
     });
   }
-  if (res.headerSent) {
+  if (res.headersSent) {
     return next(error);
-  }
+  } 
   res.status(error.code || 500);
   res.json({ message: error.message || "An unkown error occurred!" });
 });
