@@ -99,7 +99,7 @@ const login = async (req, res, next) => {
   try {
     existingUser = await User.findOne({ email: email });
   } catch (err) {
-    const error = new HttpError("Loggin in failed.", 500);
+    const error = new HttpError("Login failed, try again.", 500);
     return next(error);
   }
 
@@ -111,12 +111,12 @@ const login = async (req, res, next) => {
   try {
     isValidPassword = await bcrypt.compare(password, existingUser.password);
   } catch (err) {
-    const error = new HttpError("Loggin in failed.", 500);
+    const error = new HttpError("Login failed, try again.", 500);
     return next(error);
   }
 
   if (!isValidPassword) {
-    const error = new HttpError("Loggin in failed.", 401);
+    const error = new HttpError("Login failed, try again.", 401);
     return next(error);
   }
 
@@ -131,7 +131,7 @@ const login = async (req, res, next) => {
       { expiresIn: "1h" },
     );
   } catch (err) {
-    const error = new HttpError("Logging in failed.", 500);
+    const error = new HttpError("Login failed, try again.", 500);
     return next(error);
   }
 
