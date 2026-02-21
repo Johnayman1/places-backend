@@ -63,11 +63,12 @@ const signup = async (req, res, next) => {
     password: hashedPassword,
     places: [],
   });
-
+  console.log("data set");
   try {
     await newUser.save();
   } catch (err) {
     const error = new HttpError("Sign up failed.", 500);
+    console.log("fail save ");
     return next(error);
   }
 

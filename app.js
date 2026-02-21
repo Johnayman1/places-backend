@@ -29,14 +29,7 @@ app.use(
 app.use("/api/places", placesRoutes);
 app.use("/api/users", usersRoutes);
 
-const uploadPath = path.join("uploads", "images");
-
-if (!fs.existsSync(uploadPath)) {
-  fs.mkdirSync(uploadPath, { recursive: true });
-}
-
-app.use("/uploads/images", express.static(uploadPath));
-// app.use("/uploads/images", express.static(path.join("uploads", "images")));
+app.use("/uploads/images", express.static(path.join("uploads", "images")));
 
 app.use((req, res, next) => {
   const error = new HttpError("Could not find this route.", 404);
@@ -52,11 +45,8 @@ app.use((error, req, res, next) => {
   if (res.headersSent) {
     return next(error);
   }
-  const statusCode = typeof error.code === "number" ? error.code : 500;
-
-  res.status(statusCode).json({
-    message: error.message || "An unknown error occurred!",
-  });
+  res.status(error.code || 500);
+  res.json({ message: error.message || "An unkown error occurred!" });
 });
 
 mongoose
@@ -65,7 +55,10 @@ mongoose
   )
   .then(() => {
     app.listen(process.env.PORT || 5000);
+    console.log("connected to database");
   })
   .catch((error) => {
+    console.log("fail connected to database");
     console.log(error);
   });
+console.log("🚀 App starting...");
