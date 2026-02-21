@@ -19,7 +19,6 @@ app.use(
   }),
 );
 
-app.use("/uploads/images", express.static(path.join("uploads", "images")));
 
 // app.use((req, res, next) => {
 //   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -30,6 +29,8 @@ app.use("/uploads/images", express.static(path.join("uploads", "images")));
 
 app.use("/api/places", placesRoutes);
 app.use("/api/users", usersRoutes);
+
+app.use("/uploads/images", express.static(path.join("uploads", "images")));
 
 app.use((req, res, next) => {
   const error = new HttpError("Could not find this route.", 404);
