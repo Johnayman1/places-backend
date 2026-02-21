@@ -26,27 +26,50 @@ app.use(
 //   next();
 // });
 
+const uploadPath = path.join("uploads", "images");
+
+if (!fs.existsSync(uploadPath)) {
+  fs.mkdirSync(uploadPath, { recursive: true });
+}
+
+app.use("/uploads/images", express.static(uploadPath));
+
 app.use("/api/places", placesRoutes);
 app.use("/api/users", usersRoutes);
 
-app.use("/uploads/images", express.static(path.join("uploads", "images")));
+// app.use("/uploads/images", express.static(path.join("uploads", "images")));
 
 app.use((req, res, next) => {
   const error = new HttpError("Could not find this route.", 404);
   throw error;
 });
 
+// app.use((error, req, res, next) => {
+//   if (req.file) {
+//     fs.unlink(req.file.path, (err) => {
+//       console.log(err);
+//     });
+//   }
+//   if (res.headersSent) {
+//     return next(error);
+//   }
+//   res.status(error.code || 500);
+//   res.json({ message: error.message || "An unkown error occurred!" });
+// });
+
 app.use((error, req, res, next) => {
-  if (req.file) {
-    fs.unlink(req.file.path, (err) => {
-      console.log(err);
-    });
-  }
   if (res.headersSent) {
     return next(error);
   }
-  res.status(error.code || 500);
-  res.json({ message: error.message || "An unkown error occurred!" });
+
+  let statusCode = 500;
+  if (typeof error.code === "number") {
+    statusCode = error.code;
+  }
+
+  res.status(statusCode).json({
+    message: error.message || "An unknown error occurred!",
+  });
 });
 
 mongoose
